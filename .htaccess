@@ -1,0 +1,2 @@
+# Faz os arquivos de texto (como o llms.txt) abrirem com acentos corretos
+AddDefaultCharset UTF-8

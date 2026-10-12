@@ -1,0 +1,17 @@
+# BEAKID
+
+> Loja de calçados infantis para meninas e meninos, feitos em Birigui (SP), conhecida como a Capital Nacional do Calçado Infantil. Envio para todo o Brasil. As compras são feitas pela Shopee, pelo Mercado Livre ou com atendimento pelo WhatsApp.
+
+O site é uma página única com catálogo de produtos filtrável por categoria e por gênero. Cada produto tem botões de compra que levam ao anúncio na Shopee ou no Mercado Livre.
+
+## Principais páginas e seções
+
+- [Início](https://beakid.com.br/): apresentação da marca e destaques
+- [Sobre a BEAKID](https://beakid.com.br/#sobre): quem somos e o que oferecemos
+- [Catálogo](https://beakid.com.br/#catalogo): tênis (com e sem LED), sapatilhas, sandálias e botas
+- [Diferenciais](https://beakid.com.br/#diferenciais): envio nacional, modelos para meninas e meninos, conforto e atendimento
+
+## Contato e redes
+
+- [WhatsApp](https://wa.me/5518981797922): atendimento e dúvidas sobre produtos
+- [Instagram](https://instagram.com/lojabeakid): novidades e lançamentos
