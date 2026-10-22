@@ -1,0 +1,219 @@
+/* ==========================================================================
+   BEAKID — produto.css
+   Estilos específicos das páginas individuais de produto
+   (geradas por tools/gerar-paginas-produtos.js em produtos/<slug>/index.html).
+   Depende das variáveis e componentes de style.css (design system BEAKID).
+   ========================================================================== */
+
+.pagina-produto .pp-section {
+  padding: 28px 0 72px;
+  background: var(--white);
+}
+
+/* ---------------- Migalhas de pão ---------------- */
+.pp-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  font-family: var(--font-body);
+}
+.pp-breadcrumb a {
+  color: var(--purple);
+  font-weight: 600;
+}
+.pp-breadcrumb a:hover { color: var(--purple-dark); }
+.pp-breadcrumb span[aria-current="page"] {
+  color: var(--ink-soft);
+  max-width: 60ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------- Layout principal ---------------- */
+.pp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+/* ---------------- Galeria ---------------- */
+.pp-gallery__main {
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--bg-lilac);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+.pp-gallery__main img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: var(--white);
+}
+
+.pp-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.pp-thumb {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  padding: 0;
+  background: var(--bg-lilac);
+  transition: var(--transition);
+}
+.pp-thumb img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+.pp-thumb:hover { border-color: var(--purple-light); }
+.pp-thumb.is-active { border-color: var(--purple); }
+
+/* ---------------- Informações ---------------- */
+.pp-category {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--purple);
+  background: var(--purple-light);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.pp-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+.pp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.pp-price {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.7rem;
+  color: var(--pink-dark);
+}
+.pp-price--pendente {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ---------------- Detalhes (tamanhos, cores, código) ---------------- */
+.pp-detalhe { margin-bottom: 18px; }
+.pp-detalhe__label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.pp-detalhe__valor {
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pp-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pp-sizes span {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 8px;
+  background: var(--bg-lilac);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.pp-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pp-color-chip {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+/* ---------------- Descrição ---------------- */
+.pp-description {
+  margin: 22px 0 26px;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+.pp-description p + p { margin-top: 10px; }
+
+/* ---------------- Botões de compra ---------------- */
+.pp-buy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+}
+.pp-buy .btn { font-family: var(--font-display); font-weight: 700; }
+.pp-buy-note {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  max-width: 420px;
+}
+
+.pp-back {
+  display: inline-block;
+  margin-top: 26px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--purple);
+}
+.pp-back:hover { color: var(--purple-dark); }
+
+/* ---------------- Responsivo ---------------- */
+@media (max-width: 900px) {
+  .pp-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .pp-title { font-size: 1.5rem; }
+  .pp-price { font-size: 1.5rem; }
+  .pp-buy, .pp-buy-note { max-width: none; }
+}

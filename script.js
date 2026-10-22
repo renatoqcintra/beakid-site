@@ -17,7 +17,7 @@ const CONFIG = {
   canalPadrao: "shopee",
 
   mensagemWhatsapp: (produto) =>
-    `Olá! Tenho interesse no produto *${produto.nome}* (${produto.precoAtual !== null ? "R$ " + produto.precoAtual.toFixed(2).replace(".", ",") : ""}) que vi no site da BEAKID. Pode me ajudar?`,
+    `Olá! Tenho interesse no produto *${produto.nome}* que vi no site da BEAKID. Pode me ajudar?`,
 };
 
 /* --------------------------------------------------------------------------
@@ -229,7 +229,7 @@ const PRODUTOS = [
     precoAtual: 199,
     precoAntigo: null,
     tamanhos: [26, 27, 28, 29, 30],
-    imagens: ["./assets/images/calcados/p45.jpeg", "./assets/images/calcados/p45-2.jpeg", "./assets/images/calcados/p45-3.jpeg", "./assets/images/calcados/p45-4.jpeg", "./assets/images/calcados/p45-5.jpeg"],
+    imagens: ["./assets/images/calcados/p45.jpeg", "./assets/images/calcados/p45-2.jpeg", "./assets/images/calcados/p45-3.jpeg", "./assets/images/calcados/p45-4.jpeg"],
     link: "https://shopee.com.br/product/1049291132/22192673688/",
     linkMercadoLivre: "https://produto.mercadolivre.com.br/MLB-1914871644-tenis-infantil-feminino-luz-led-rodinha-luzinha-menina-moda-_JM"
   },
@@ -308,7 +308,7 @@ const PRODUTOS = [
     precoAtual: 79.9,
     precoAntigo: null,
     tamanhos: [28, 29, 30, 31, 32, 33, 34, 35, 36],
-    imagens: ["./assets/images/calcados/p56.jpeg", "./assets/images/calcados/p56-2.jpeg", "./assets/images/calcados/p56-3.jpeg", "./assets/images/calcados/p56-4.jpeg", "./assets/images/calcados/p56-5.jpeg", "./assets/images/calcados/p56-6.jpeg", "./assets/images/calcados/p56-7.jpeg"],
+    imagens: ["./assets/images/calcados/p56.jpeg", "./assets/images/calcados/p56-2.jpeg", "./assets/images/calcados/p56-3.jpeg", "./assets/images/calcados/p56-4.jpeg", "./assets/images/calcados/p56-5.jpeg", "./assets/images/calcados/p56-6.jpeg"],
     link: "https://shopee.com.br/product/1049291132/23296555944/",
     linkMercadoLivre: "https://produto.mercadolivre.com.br/MLB-4196174157-tenis-infantil-beakid-meninas-luzinha-led-moda-confortavel-_JM"
   },
@@ -413,7 +413,7 @@ const PRODUTOS = [
     precoAtual: 79.90,
     precoAntigo: null,
     tamanhos: [20, 21, 22, 23, 24, 25, 26, 27],
-    imagens: ["./assets/images/calcados/p50.jpeg", "./assets/images/calcados/p50-2.jpeg", "./assets/images/calcados/p50-3.jpeg", "./assets/images/calcados/p50-4.jpeg", "./assets/images/calcados/p50-5.jpeg"],
+    imagens: ["./assets/images/calcados/p50.jpeg", "./assets/images/calcados/p50-2.jpeg", "./assets/images/calcados/p50-3.jpeg", "./assets/images/calcados/p50-4.jpeg"],
     link: "https://shopee.com.br/product/1049291132/19197251289/",
     linkMercadoLivre: "https://produto.mercadolivre.com.br/MLB-2064605835-sandalia-infantil-feminina-com-luz-rasteira-menina-luzinha-_JM"
   },
@@ -444,7 +444,7 @@ const PRODUTOS = [
     precoAtual: 79.90,
     precoAntigo: null,
     tamanhos: [20, 21, 22, 23, 24, 25, 26, 27],
-    imagens: ["./assets/images/calcados/p52.jpeg", "./assets/images/calcados/p52-2.jpeg", "./assets/images/calcados/p52-3.jpeg", "./assets/images/calcados/p52-4.jpeg", "./assets/images/calcados/p52-5.jpeg", "./assets/images/calcados/p52-6.jpeg", "./assets/images/calcados/p52-7.jpeg"],
+    imagens: ["./assets/images/calcados/p52.jpeg", "./assets/images/calcados/p52-2.jpeg", "./assets/images/calcados/p52-3.jpeg", "./assets/images/calcados/p52-4.jpeg", "./assets/images/calcados/p52-5.jpeg", "./assets/images/calcados/p52-6.jpeg"],
     link: "https://shopee.com.br/product/1049291132/22896546399/",
     linkMercadoLivre: "https://produto.mercadolivre.com.br/MLB-2064605835-sandalia-infantil-feminina-com-luz-rasteira-menina-luzinha-_JM"
   },
@@ -486,6 +486,39 @@ const PRODUTOS = [
 
 ];
 
+/* SLUG-INICIO
+   Helpers de slug compartilhados com o gerador de páginas de produto
+   (tools/gerar-paginas-produtos.js). O gerador extrai este bloco do arquivo
+   para garantir que os links "Ver detalhes" e as URLs geradas sejam idênticos.
+   Não remova os marcadores SLUG-INICIO / SLUG-FIM. */
+function slugifyTexto(texto) {
+  const base = String(texto || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const cortado = base.slice(0, 80);
+  if (cortado.length < base.length) {
+    return cortado.replace(/-[^-]*$/, "").replace(/-+$/g, "");
+  }
+  return cortado;
+}
+function slugBaseProduto(p) {
+  const base = slugifyTexto(p && p.nome);
+  return base || slugifyTexto(p && p.id) || "produto";
+}
+function slugProduto(p, lista) {
+  lista = lista || PRODUTOS;
+  const base = slugBaseProduto(p);
+  const iguais = lista.filter((x) => slugBaseProduto(x) === base);
+  if (iguais.length > 1) return base + "-" + slugifyTexto(p.id);
+  return base;
+}
+function urlPaginaProduto(p, lista) {
+  return "produtos/" + slugProduto(p, lista) + "/";
+}
+/* SLUG-FIM */
+
 /* --------------------------------------------------------------------------
    4) ESTADO
    -------------------------------------------------------------------------- */
@@ -496,10 +529,6 @@ let ordenacaoAtiva = "recentes";
 /* --------------------------------------------------------------------------
    5) HELPERS
    -------------------------------------------------------------------------- */
-function formatarPreco(valor) {
-  if (valor === null || valor === undefined) return null;
-  return valor.toFixed(2).replace(".", ",");
-}
 
 const CORES_HEX = {
   "Preto": "#1a1a1a", "Branco": "#ffffff", "Nude": "#e3c4a8",
@@ -649,10 +678,9 @@ function renderProdutos() {
           ${p.cores.map((c) => renderColorDot(c)).join("")}
         </div>` : ""}
         <div class="product-card__price-row">
-          ${p.precoAtual !== null
-            ? `<span class="product-card__price">R$ ${formatarPreco(p.precoAtual)}</span>${p.precoAntigo ? `<span class="product-card__price-old">R$ ${formatarPreco(p.precoAntigo)}</span>` : ""}`
-            : `<span class="product-card__price product-card__price--pendente">Ver preço na loja</span>`}
+          <span class="product-card__price product-card__price--pendente">Ver preço na loja</span>
         </div>
+        <a class="product-card__details" href="${urlPaginaProduto(p)}">Ver detalhes do produto</a>
         <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
           <a class="btn btn-primary btn-block btn-sm" href="${p.link || CONFIG.shopee}" target="_blank" rel="noopener" style="background-color: #ee4d2d; color: white; border: none;">Comprar na Shopee</a>
           <a class="btn btn-primary btn-block btn-sm" href="${p.linkMercadoLivre || '#'}" target="_blank" rel="noopener" style="background-color: #ffe600; color: #2d3277; border: none;">Comprar no Mercado Livre</a>
@@ -734,9 +762,7 @@ function renderGaleriaConteudo() {
   document.getElementById("galeriaCores").innerHTML = (p.cores && p.cores.length > 0)
     ? `Cores: ${p.cores.map((c) => renderColorDot(c)).join("")}`
     : "";
-  document.getElementById("galeriaPreco").innerHTML = p.precoAtual !== null
-    ? `R$ ${formatarPreco(p.precoAtual)}${p.precoAntigo ? ` <span class="galeria-preco-old">R$ ${formatarPreco(p.precoAntigo)}</span>` : ""}`
-    : `Ver preço na loja`;
+  document.getElementById("galeriaPreco").innerHTML = `Ver preço na loja`;
 
   // Modificado: Configurando os 3 novos botões da galeria
   const btnShopee = document.getElementById("galeriaBtnShopee");
@@ -788,12 +814,22 @@ function wireGaleria() {
 /* --------------------------------------------------------------------------
    9) RENDER — INSTAGRAM
    -------------------------------------------------------------------------- */
+/* Ordem da grade do Instagram: da mais recente (primeira) para a mais antiga.
+   Para atualizar: coloque a nova imagem em assets/images/instagram/ e adicione
+   o caminho no início desta lista, removendo o último (o mais antigo). */
+const INSTAGRAM_POSTS = [
+  "./assets/images/instagram/instagram-dia-das-criancas.png",
+  "./assets/images/instagram/instagram-1.png",
+  "./assets/images/instagram/instagram-2.png",
+  "./assets/images/instagram/instagram-3.png",
+  "./assets/images/instagram/instagram-4.png",
+  "./assets/images/instagram/instagram-5.png",
+];
+
 function renderInstagram() {
   const grid = document.getElementById("instagramGrid");
-  const total = 6;
   let html = "";
-  for (let i = 1; i <= total; i++) {
-    const arquivo = `./assets/images/instagram/instagram-${i}.png`;
+  for (const arquivo of INSTAGRAM_POSTS) {
     html += `
       <a class="instagram-tile" href="${CONFIG.instagram}" target="_blank" rel="noopener" aria-label="Ver post no Instagram">
         <img alt="Post BEAKID no Instagram" src="${arquivo}" loading="lazy"
