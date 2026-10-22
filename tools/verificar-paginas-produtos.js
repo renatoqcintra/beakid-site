@@ -80,6 +80,16 @@ function main() {
     ok(html.includes(`<link rel="canonical" href="${DOMINIO}/produtos/${slug}/">`),
       `${slug}: canonical incorreto ou ausente`);
 
+    // og:image — URL absoluta válida, sem "../" (quebra o compartilhamento)
+    const ogImg = (html.match(/<meta property="og:image" content="([^"]+)">/) || [])[1];
+    ok(!!ogImg, `${slug}: og:image ausente`);
+    if (ogImg) {
+      ok(ogImg.startsWith(DOMINIO + "/assets/"), `${slug}: og:image não é URL absoluta do domínio — ${ogImg}`);
+      ok(!/\.\.\//.test(ogImg), `${slug}: og:image contém "../" — ${ogImg}`);
+      const relOg = ogImg.replace(DOMINIO + "/", "");
+      ok(fs.existsSync(path.join(RAIZ, relOg)), `${slug}: og:image aponta para arquivo inexistente — ${ogImg}`);
+    }
+
     // Título e H1
     ok(html.includes(`<title>${p.nome} | BEAKID</title>`), `${slug}: título não corresponde ao nome do produto`);
     ok(html.includes(`<h1 class="pp-title">${p.nome.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")}</h1>`),
@@ -104,6 +114,7 @@ function main() {
         ok(produto.name === p.nome, `${slug}: JSON-LD name divergente`);
         ok(Array.isArray(produto.image) && produto.image.every((u) => u.startsWith(DOMINIO + "/assets/")),
           `${slug}: JSON-LD image com URL não absoluta`);
+        ok(produto.image.every((u) => !/\.\.\//.test(u)), `${slug}: JSON-LD image com "../" na URL absoluta`);
         // Imagens do JSON-LD existem no disco
         for (const u of produto.image) {
           const rel = u.replace(DOMINIO + "/", "");

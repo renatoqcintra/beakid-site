@@ -61,7 +61,10 @@ function caminhoRelativoParaRaiz(caminhoImagem) {
 }
 
 function urlAbsoluta(caminhoImagem) {
-  return DOMINIO + "/" + caminhoRelativoParaRaiz(caminhoImagem);
+  // Remove qualquer navegação de diretória no início ("../../", "./", "/")
+  // para produzir uma URL absoluta válida a partir da raiz do domínio.
+  const limpo = String(caminhoImagem).replace(/^(\.\.\/|\.\/|\/)+/, "");
+  return DOMINIO + "/" + limpo;
 }
 
 function normalizarCores(p) {
